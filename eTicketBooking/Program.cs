@@ -1,3 +1,7 @@
+using eTicketBooking.Data;
+using eTicketBooking.Data.Seeders;
+using Microsoft.EntityFrameworkCore;
+
 namespace eTicketBooking
 {
     public class Program
@@ -5,6 +9,9 @@ namespace eTicketBooking
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<AppDbContext>(
+                options => options.UseSqlServer(builder.Configuration.GetConnectionString("eTicketDatabase")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -29,6 +36,9 @@ namespace eTicketBooking
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            // Seed Data
+            AppDbInitializer.Seed(app);
 
             app.Run();
         }
