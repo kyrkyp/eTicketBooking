@@ -1,5 +1,7 @@
 using eTicketBooking.Data;
 using eTicketBooking.Data.Seeders;
+using eTicketBooking.Data.Services;
+using eTicketBooking.Data.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace eTicketBooking
@@ -12,6 +14,8 @@ namespace eTicketBooking
 
             builder.Services.AddDbContext<AppDbContext>(
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("eTicketDatabase")));
+
+            builder.Services.AddScoped<IActorsService, ActorsService>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

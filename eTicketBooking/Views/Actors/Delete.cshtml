@@ -1,13 +1,13 @@
 ﻿@model Actor
 
 @{
-    ViewData["Title"] = "Details for @Model.FullName";
+    ViewData["Title"] = "Delete @Model.FullName";
 }
 
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
-            <h1>Add a New Actor</h1>
+            <h1>Delete Confirmation for @Model.FullName</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
@@ -30,7 +30,10 @@
                     <span asp-validation-for="Bio" class="text-danger"></span>
                 </div>
                 <div class="form-group my-4">
-                    <a class="btn btn-outline-success float-end" asp-action="Edit" asp-route-id="@Model.ActorId">Edit</a>
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="ActorId" />
+                        <input type="submit" value="Confirm" class="btn btn-danger float-end" />
+                    </form>
                     <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
                 </div>			
             </div>
