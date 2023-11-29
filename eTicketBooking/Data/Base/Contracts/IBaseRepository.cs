@@ -1,6 +1,6 @@
 ﻿namespace eTicketBooking.Data.Base.Contracts
 {
-    public interface IBaseRepository<T> where T : class, IBaseEnity, new()
+    public interface IBaseRepository<T> where T : class, IBaseEntity, new()
     {
         Task<IEnumerable<T>> GetAllAsync();
 

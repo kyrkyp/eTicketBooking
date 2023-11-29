@@ -1,32 +1,59 @@
 ﻿using eTicketBooking.Data.Base.Contracts;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace eTicketBooking.Data.Base
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class, IBaseEnity, new()
+    public class BaseRepository<T> : IBaseRepository<T> where T : class, IBaseEntity, new()
     {
-        public Task<T> CreateAsync(T entity)
+        private readonly AppDbContext _dbContext;
+
+        public BaseRepository(AppDbContext dbContext)
         {
-            throw new NotImplementedException();
+            _dbContext = dbContext;
         }
 
-        public Task DeleteAsync(int id)
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var result = await _dbContext.Set<T>().ToListAsync();
+
+            return result;
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public async Task<T> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _dbContext.Set<T>().FirstOrDefaultAsync(a => a.Id == id);
+
+            return result;
         }
 
-        public Task<T> GetByIdAsync(int id)
+        public async Task<T> CreateAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _dbContext.Set<T>().AddAsync(entity);
+
+            await _dbContext.SaveChangesAsync();
+
+            return entity;
         }
 
-        public Task<T> UpdateAsync(int id, T entity)
+        public async Task<T> UpdateAsync(int id, T entity)
         {
-            throw new NotImplementedException();
+            EntityEntry entityEntry = _dbContext.Entry<T>(entity);
+
+            entityEntry.State = EntityState.Modified;
+
+            await _dbContext.SaveChangesAsync();
+
+            return entity;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var result = await _dbContext.Set<T>().FirstOrDefaultAsync(a => a.Id == id);
+
+            _dbContext.Set<T>().Remove(result);
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

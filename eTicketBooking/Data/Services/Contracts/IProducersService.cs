@@ -3,7 +3,7 @@ using eTicketBooking.Models;
 
 namespace eTicketBooking.Data.Services.Contracts
 {
-    public interface IActorsService : IBaseRepository<Actor>
+    public interface IProducersService : IBaseRepository<Producer>
     {
     }
 }

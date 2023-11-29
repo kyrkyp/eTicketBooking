@@ -1,6 +1,6 @@
 ﻿namespace eTicketBooking.Data.Base.Contracts
 {
-    public interface IBaseEnity
+    public interface IBaseEntity
     {
         int Id { get; set; }
     }

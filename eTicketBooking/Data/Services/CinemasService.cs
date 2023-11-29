@@ -4,9 +4,9 @@ using eTicketBooking.Models;
 
 namespace eTicketBooking.Data.Services
 {
-    public class ActorsService : BaseRepository<Actor>, IActorsService
+    public class CinemasService : BaseRepository<Cinema>, ICinemasService
     {
-        public ActorsService(AppDbContext dbContext) : base(dbContext)
+        public CinemasService(AppDbContext dbContext) : base(dbContext)
         {
         }
     }

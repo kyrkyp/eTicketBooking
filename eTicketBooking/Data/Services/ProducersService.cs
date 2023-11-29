@@ -4,9 +4,9 @@ using eTicketBooking.Models;
 
 namespace eTicketBooking.Data.Services
 {
-    public class ActorsService : BaseRepository<Actor>, IActorsService
+    public class ProducersService : BaseRepository<Producer>, IProducersService
     {
-        public ActorsService(AppDbContext dbContext) : base(dbContext)
+        public ProducersService(AppDbContext dbContext) : base(dbContext)
         {
         }
     }

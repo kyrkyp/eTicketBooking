@@ -2,6 +2,7 @@
 using eTicketBooking.Models;
 using eTicketBooking.Models.Validators;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eTicketBooking.Controllers
@@ -17,6 +18,7 @@ namespace eTicketBooking.Controllers
             _actorValidator = new ActorValidator();
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var allActors = await _actorsSvc.GetAllAsync();
@@ -49,6 +51,7 @@ namespace eTicketBooking.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var actorDetails = await _actorsSvc.GetByIdAsync(id);
@@ -68,7 +71,7 @@ namespace eTicketBooking.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit([Bind("ActorId,FullName,ProfilePictureURL,Bio")] int id, Actor actor)
+        public async Task<IActionResult> Edit([Bind("Id,FullName,ProfilePictureURL,Bio")] int id, Actor actor)
         {
             var validationResult = _actorValidator.Validate(actor);
 

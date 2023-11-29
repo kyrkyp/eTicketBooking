@@ -1,19 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using eTicketBooking.Data.Base.Contracts;
 using eTicketBooking.Data.Enums;
 
 namespace eTicketBooking.Models
 {
-    public class Movie
+    public class Movie : IBaseEntity
     {
         [Key]
-        public int MovieId { get; set; }
+        public int Id { get; set; }
+
+        #region Navigation Properties
 
         [ForeignKey("Cinema")]
         public int CinemaId { get; set; }
 
         [ForeignKey("Producer")]
         public int ProducerId { get; set; }
+
+        #endregion Navigation Properties
 
         public string Name { get; set; }
 
@@ -31,7 +36,7 @@ namespace eTicketBooking.Models
 
         #region Related Entities
 
-        public ICollection<Actor> Actors { get; set; }
+        public ICollection<Actor_Movie> Actors_Movies { get; set; }
 
         public Cinema Cinema { get; set; }
 
