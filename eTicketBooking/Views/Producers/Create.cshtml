@@ -1,20 +1,21 @@
-﻿@model Actor
+﻿@model Producer
 
 @{
-    ViewData["Title"] = "Update Actor with Id: @Model.Id";
+    ViewData["Title"] = "Add a new producer";
 }
 
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
-            <h1>Update Actor</h1>
+            <h1>Add a New Producer</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
-                <form asp-action="Edit">
+                <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group text-center my-2">
-                        <img id="ProfilePicturePreview" class="border-info rounded-circle" style="max-width: 150px;" />
+
+                    <div class="form-group text-center">
+                        <img id="ProfilePicturePreview" class="border-info rounded-circle" style="max-width: 150px" />
                     </div>
                     <div class="form-group my-2">
                         <label asp-for="ProfilePictureURL" class="control-label"></label>
@@ -31,11 +32,12 @@
                         <input asp-for="Bio" class="form-control" />
                         <span asp-validation-for="Bio" class="text-danger"></span>
                     </div>
+
                     <div class="form-group my-4">
-                        <input type="submit" value="Update" class="btn btn-outline-success float-end" />
+                        <input type="submit" value="Create" class="btn btn-outline-success float-end" />
                         <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
                     </div>
-                </form>				
+                </form>
             </div>
         </div>
     </div>
@@ -44,17 +46,14 @@
 @section Scripts {
     <script>
 
-		$(document).ready(function () {
-			var output = document.getElementById("ProfilePicturePreview");
+        $(document).ready(function () {
+            var output = document.getElementById('ProfilePicturePreview');
+            output.src = $("#ProfilePictureURL").val();
+        })
 
-			output.src = $("#ProfilePictureURL").val();
-		});
-
-		// Image Preview
-		$("#ProfilePictureURL").change(function () {
-			var output = document.getElementById("ProfilePicturePreview");
-
-			output.src = $(this).val();
-		});
-	</script>
+        $("#ProfilePictureURL").on("change", function () {
+            var output = document.getElementById('ProfilePicturePreview');
+            output.src = $(this).val();
+        })
+    </script>
 }

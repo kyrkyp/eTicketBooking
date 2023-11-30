@@ -26,10 +26,7 @@ namespace eTicketBooking.Controllers
             return View(allActors);
         }
 
-        public async Task<IActionResult> Create()
-        {
-            return View();
-        }
+        public async Task<IActionResult> Create() => View();
 
         [HttpPost]
         public async Task<IActionResult> Create([Bind("FullName,ProfilePictureURL,Bio")] Actor actor)
@@ -71,7 +68,9 @@ namespace eTicketBooking.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit([Bind("Id,FullName,ProfilePictureURL,Bio")] int id, Actor actor)
+        public async Task<IActionResult> Edit(
+            [Bind("Id,FullName,ProfilePictureURL,Bio")] int id,
+            Actor actor)
         {
             var validationResult = _actorValidator.Validate(actor);
 

@@ -12,7 +12,7 @@ namespace eTicketBooking.Models.Orders
 
         #region Navigation Properties
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         #endregion Navigation Properties
 
