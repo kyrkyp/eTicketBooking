@@ -62,10 +62,20 @@
                                 <span asp-validation-for="ProducerId" class="text-danger"></span>
                             </div>
                             <div class="form-group my-2">
-                                <label asp-for="ActorIds" class="control-label"></label>
-                                <select asp-for="ActorIds" class="form-control" asp-items="ViewBag.Actors" multiple></select>
+                                <label class="control-label">Select Actors</label>
+                                <div>
+                                    @foreach (var actor in ViewBag.Actors)
+                                    {
+                                        <div class="form-check">
+                                            <input type="checkbox" name="ActorIds" value="@actor.Value" id="actor_@actor.Value" class="form-check-input"
+                                            @(Model.ActorIds != null && Model.ActorIds.Contains(int.Parse(actor.Value)) ? "checked" : "") />
+                                            <label class="form-check-label" for="actor_@actor.Value">@actor.Text</label>
+                                        </div>
+                                    }
+                                </div>
                                 <span asp-validation-for="ActorIds" class="text-danger"></span>
                             </div>
+
                         </div>
                         <div class="col-md-12">
                             <div class="form-group my-2">

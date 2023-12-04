@@ -5,23 +5,23 @@ using eTickets.Data.Cart;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace eTicketBooking.Controllers
+namespace eTickets.Controllers
 {
     [Authorize]
-    public class OrdesController : Controller
+    public class OrdersController : Controller
     {
-        private readonly IMoviesService _moviesSvc;
+        private readonly IMoviesService _moviesService;
         private readonly ShoppingCart _shoppingCart;
-        private readonly IOrdersService _ordersSvc;
+        private readonly IOrdersService _ordersService;
 
-        public OrdesController(
-            IMoviesService moviesSvc,
+        public OrdersController(
+            IMoviesService moviesService,
             ShoppingCart shoppingCart,
-            IOrdersService ordersSvc)
+            IOrdersService ordersService)
         {
-            _moviesSvc = moviesSvc;
+            _moviesService = moviesService;
             _shoppingCart = shoppingCart;
-            _ordersSvc = ordersSvc;
+            _ordersService = ordersService;
         }
 
         public async Task<IActionResult> Index()
@@ -30,7 +30,7 @@ namespace eTicketBooking.Controllers
 
             string userRole = User.FindFirstValue(ClaimTypes.Role);
 
-            var orders = await _ordersSvc.GetOrdersByUserIdAndRoleAsync(userId, userRole);
+            var orders = await _ordersService.GetOrdersByUserIdAndRoleAsync(userId, userRole);
 
             return View(orders);
         }
@@ -41,7 +41,7 @@ namespace eTicketBooking.Controllers
 
             _shoppingCart.ShoppingCartItems = items;
 
-            var response = new ShoppingCartVM
+            var response = new ShoppingCartVM()
             {
                 ShoppingCart = _shoppingCart,
                 ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal()
@@ -50,25 +50,25 @@ namespace eTicketBooking.Controllers
             return View(response);
         }
 
-        public async Task<IActionResult> AddToShoppingCart(int id)
+        public async Task<IActionResult> AddItemToShoppingCart(int id)
         {
-            var selectedMovie = await _moviesSvc.GetMovieByIdAsync(id);
+            var item = await _moviesService.GetMovieByIdAsync(id);
 
-            if (selectedMovie != null)
+            if (item != null)
             {
-                _shoppingCart.AddItemToCart(selectedMovie);
+                _shoppingCart.AddItemToCart(item);
             }
 
             return RedirectToAction(nameof(ShoppingCart));
         }
 
-        public async Task<IActionResult> RemoveFromShoppingCart(int id)
+        public async Task<IActionResult> RemoveItemFromShoppingCart(int id)
         {
-            var selectedMovie = await _moviesSvc.GetMovieByIdAsync(id);
+            var item = await _moviesService.GetMovieByIdAsync(id);
 
-            if (selectedMovie != null)
+            if (item != null)
             {
-                _shoppingCart.RemoveItemFromCart(selectedMovie);
+                _shoppingCart.RemoveItemFromCart(item);
             }
 
             return RedirectToAction(nameof(ShoppingCart));
@@ -76,13 +76,13 @@ namespace eTicketBooking.Controllers
 
         public async Task<IActionResult> CompleteOrder()
         {
-            var selectedMovies = _shoppingCart.GetShoppingCartItems();
+            var items = _shoppingCart.GetShoppingCartItems();
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            string userEmail = User.FindFirstValue(ClaimTypes.Email);
+            string userEmailAddress = User.FindFirstValue(ClaimTypes.Email);
 
-            await _ordersSvc.StoreOrderAsync(selectedMovies, userId, userEmail);
+            await _ordersService.StoreOrderAsync(items, userId, userEmailAddress);
 
             await _shoppingCart.ClearShoppingCartAsync();
 

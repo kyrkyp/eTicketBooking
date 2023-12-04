@@ -13,7 +13,7 @@ namespace eTicketBooking.Models.ViewModels
         [Display(Name = "Movie description")]
         public string Description { get; set; }
 
-        [Display(Name = "Price in $")]
+        [Display(Name = "Price in €")]
         public double Price { get; set; }
 
         [Display(Name = "Movie poster URL")]
