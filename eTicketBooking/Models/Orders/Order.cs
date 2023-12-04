@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using eTicketBooking.Models.Registry;
 
 namespace eTicketBooking.Models.Orders
@@ -18,6 +19,7 @@ namespace eTicketBooking.Models.Orders
 
         #region Related Entities
 
+        [ForeignKey(nameof(UserId))]
         public ApplicationUser User { get; set; }
 
         public ICollection<OrderItem> OrderItems { get; set; }

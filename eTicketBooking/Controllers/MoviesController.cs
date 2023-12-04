@@ -1,4 +1,5 @@
 ﻿using eTicketBooking.Data.Services.Contracts;
+using eTicketBooking.Models.Registry.Static;
 using eTicketBooking.Models.Validators.ViewModels;
 using eTicketBooking.Models.ViewModels;
 using FluentValidation;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace eTicketBooking.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class MoviesController : Controller
     {
         private readonly IMoviesService _moviesSvc;

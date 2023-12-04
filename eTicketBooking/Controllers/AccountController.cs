@@ -3,6 +3,7 @@ using eTicketBooking.Models.Registry;
 using eTicketBooking.Models.Registry.Static;
 using eTicketBooking.Models.Validators.ViewModels;
 using eTicketBooking.Models.ViewModels;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,21 +15,19 @@ namespace eTicketBooking.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly AppDbContext _context;
-        private readonly LoginVMValidator _loginValidator;
-        private readonly RegisterVMValidator _registerValidator;
+        private readonly IValidator<LoginVM> _loginValidator;
+        private readonly IValidator<RegisterVM> _registerValidator;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            AppDbContext context,
-            LoginVMValidator loginValidator,
-            RegisterVMValidator registerValidator)
+            AppDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
-            _loginValidator = loginValidator;
-            _registerValidator = registerValidator;
+            _loginValidator = new LoginVMValidator();
+            _registerValidator = new RegisterVMValidator();
         }
 
         public async Task<IActionResult> Users()
@@ -53,6 +52,8 @@ namespace eTicketBooking.Controllers
                 {
                     ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
                 }
+
+                return View(loginVM);
             }
 
             var user = await _userManager.FindByEmailAsync(loginVM.EmailAddress);
@@ -97,6 +98,8 @@ namespace eTicketBooking.Controllers
                 {
                     ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
                 }
+
+                return View(registerVM);
             }
 
             var user = await _userManager.FindByEmailAsync(registerVM.EmailAddress);

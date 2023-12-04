@@ -10,5 +10,7 @@ namespace eTicketBooking.Models.Orders
         public int Amount { get; set; }
 
         public Movie Movie { get; set; }
+
+        public string ShoppingCartId { get; set; }
     }
 }

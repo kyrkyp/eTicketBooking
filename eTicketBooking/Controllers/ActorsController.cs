@@ -1,5 +1,6 @@
 ﻿using eTicketBooking.Data.Services.Contracts;
 using eTicketBooking.Models;
+using eTicketBooking.Models.Registry.Static;
 using eTicketBooking.Models.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace eTicketBooking.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class ActorsController : Controller
     {
         private readonly IActorsService _actorsSvc;
