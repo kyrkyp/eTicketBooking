@@ -19,10 +19,10 @@
                             <p class="card-text">
                                 <h5 class="card-title">
                                     @item.Name
-                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                                    {
-                                        <a class="text-white float-right" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
-                                    }
+                                   @*  @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    { *@
+                                        <a class="text-white float-end" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                                    @* } *@
                                 </h5>
                             </p>
                         </div>
@@ -33,7 +33,7 @@
                     <div class="col-md-6">
                         <div class="card-body">
                             <p class="card-text">@item.Description</p>
-                            <p class="card-text"><b>Cinema: </b>@item.Cinema.Name</p>
+                            @* <p class="card-text"><b>Cinema: </b>@item.Cinema.Name</p> *@
                             <p class="card-text"><b>Category: </b>@item.MovieCategory</p>
                             <p class="card-text"><b>Start Date: </b>@item.StartDate.ToString("dd MMM yy", cultureInfo)</p>
                             <p class="card-text"><b>End Date: </b>@item.EndDate.ToString("dd MMM yy", cultureInfo)</p>
@@ -75,3 +75,5 @@
         </div>
 	}
 </div>
+
+@await Html.PartialAsync("_CreateItem", "Movies") 

@@ -57,6 +57,7 @@ namespace eTicketBooking.Data.Services
                 .Include(c => c.Cinema)
                 .Include(p => p.Producer)
                 .Include(am => am.Actors_Movies)
+                .ThenInclude(a => a.Actor)
                 .FirstOrDefaultAsync(n => n.Id == id);
 
             return movieDetails;
